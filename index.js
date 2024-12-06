@@ -110,3 +110,71 @@ function isGameOver() {
 
   return gameOver;
 }
+
+function drawScore() {
+  ctx.fillStyle = "white";
+  ctx.font = "10px Verdana";
+  ctx.fillText("Score " + score, canvas.width - 50, 10);
+}
+
+function clearScreen() {
+  ctx.fillStyle = "black";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+}
+
+function drawSnake() {
+  ctx.fillStyle = "green";
+  for (let i = 0; i < snakeParts.length; i++) {
+    let part = snakeParts[i];
+    ctx.fillRect(part.x * tileCount, part.y * tileCount, tileSize, tileSize);
+  }
+
+  snakeParts.push(new SnakePart(headX, headY));
+  while (snakeParts.length > tailLength) {
+    snakeParts.shift();
+  }
+
+  ctx.fillStyle = "orange";
+  ctx.fillRect(headX * tileCount, headY * tileCount, tileSize, tileSize);
+}
+
+function checkAppleCollision() {
+  if (appleX === headX && appleY == headY) {
+    appleX = Math.floor(Math.random() * tileCount);
+    appleY = Math.floor(Math.random() * tileCount);
+    tailLength++;
+    score++;
+    // add sound.play() here if adding sound later on
+  }
+}
+
+
+document.body.addEventListener("keydown", keyDown);
+
+function keyDown(event) {
+  if (event.keyCode == 38 || event.keyCode == 87) {
+    if (inputsYVelocity == 1) return;
+    inputsYVelocity = -1;
+    inputsXVelocity = 0;
+  }
+
+  if (event.keyCode == 40 || event.keyCode == 83) {
+    if (inputsYVelocity == -1) return;
+    inputsYVelocity = 1;
+    inputsXVelocity = 0;
+  }
+
+  if (event.keyCode == 37 || event.keyCode == 65) {
+    if (inputsXVelocity == 1) return;
+    inputsYVelocity = 0;
+    inputsXVelocity = -1;
+  }
+
+  if (event.keyCode == 39 || event.keyCode == 68) {
+    if (inputsXVelocity == -1) return;
+    inputsYVelocity = 0;
+    inputsXVelocity = 1;
+  }
+}
+
+drawGame();
