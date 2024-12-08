@@ -31,7 +31,7 @@ let yVelocity = 0;
 
 let score = 0;
 
-let gulpSound = new Audio("gulp.mp3");
+
 
 //game loop
 function drawGame() {
